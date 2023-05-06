@@ -1,14 +1,36 @@
 # Rate Limiter Service
 
-A Node.js and TypeScript implementation of a rate limiter middleware for Express applications. The rate limiting is
-achieved using a combination of the Sliding Window Log algorithm, API Quotas, and Adaptive Rate Limiting.
+The Rate Limiter Service is designed to limit the rate of incoming requests from clients, protecting your backend services from being overwhelmed by excessive traffic. It implements a combination of the Sliding Window Log algorithm, API quotas, and adaptive rate limiting strategies to provide fine-grained control over the request rate.
 
 ## Features
 
-- Sliding Window Log algorithm for rate limiting requests within the same time window
-- API Quotas for rate limiting requests on a per-month basis
-- Adaptive Rate Limiting for handling too many requests across the entire system
-- Soft and Hard throttling for more efficient and user-friendly rate limiting
+### Sliding Window Log Algorithm
+
+The Sliding Window Log algorithm allows you to limit requests per second, providing a smooth distribution of requests. It uses a time-based sliding window to track incoming requests and ensures that the allowed request rate is maintained within the specified time frame.
+
+### API Quotas
+
+API quotas enable you to assign each client a fixed number of requests per month. If a client exceeds their quota, their requests will be throttled until the quota resets at the beginning of the next month. This helps to prevent excessive usage of your API by individual clients.
+
+### Adaptive Rate Limiting
+
+Adaptive rate limiting adjusts the rate limit based on factors such as server load or user behavior. This helps maintain system performance under high traffic conditions, dynamically adapting the allowed request rate as needed.
+
+### Soft and Hard Throttling
+
+The service also supports soft and hard throttling:
+
+- Soft throttling: Clients are informed that they are approaching their rate limit, but their requests are still processed. This allows them to adjust their usage pattern before reaching the hard limit.
+- Hard throttling: Requests from clients that exceed their rate limit are blocked until the limit is reset or the client's behavior changes.
+
+## Implementation
+
+The Rate Limiter Service is implemented as a middleware for Node.js and TypeScript applications. It can be easily integrated into your existing API Gateway or used as a standalone service.
+
+To use the Rate Limiter Service, simply import the `RateLimiterMiddleware` class and add it to your application's middleware stack. You can configure the service using various options, such as the sliding window rate limit, API quota limit, and adaptive rate limit threshold and multiplier.
+
+For detailed usage instructions and example code, please refer to the [Usage](#usage) section below.
+
 
 ## Installation
 
