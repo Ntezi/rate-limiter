@@ -83,11 +83,6 @@ sudo cp wrk /usr/local/bin
 
 For Windows, you can download a precompiled binary from [this repository](https://github.com/maierhofer/wrk-windows). Download the `wrk.exe` file and add it to your system's PATH.
 
-### Load testing with `wrk`
-
-(Include the instructions for load testing with `wrk` as mentioned in the previous response)
-
-
 
 ### Load testing with `wrk`
 
