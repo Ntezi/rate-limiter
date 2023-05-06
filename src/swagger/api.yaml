@@ -1,0 +1,219 @@
+openapi: 3.0.1
+info:
+  title: Rate Limiter Service
+  description: 'This is a Rate Limiter Service API documentation'
+  contact:
+    name: Marius Ngaboyamahina
+    email: ntezitechnology@gmail.com
+  version: 1.0.0
+servers:
+  - url: http://localhost:2305
+tags:
+  - name: "Rate Limiter"
+    description: "Rate Limiter endpoints"
+    externalDocs:
+      description: "Find out more"
+      url: ""
+  - name: "Health"
+    description: "Health Check endpoints"
+    externalDocs:
+      description: "Find out more"
+      url: ""
+paths:
+  /health/check:
+    get:
+      tags:
+        - Health
+      summary: Health Check
+      description: Health Check
+      operationId: healthCheck
+      responses:
+        200:
+          $ref: "#/components/responses/HealthCheckResponse"
+
+        500:
+          $ref: "#/components/responses/InternalError"
+
+  /health/liveness:
+    get:
+      tags:
+        - Health
+      summary: Liveness Check
+      description: Liveness Check
+      operationId: livenessCheck
+      responses:
+        200:
+          $ref: "#/components/responses/LivenessCheckResponse"
+
+        500:
+          $ref: "#/components/responses/InternalError"
+
+  /health/readiness:
+    get:
+      tags:
+        - Health
+      summary: Readiness Check
+      description: Readiness Check
+      operationId: readinessCheck
+      responses:
+        200:
+          $ref: "#/components/responses/ReadinessCheckResponse"
+
+        500:
+          $ref: "#/components/responses/InternalError"
+
+  /rate-limiter:
+    get:
+      tags:
+        - Rate Limiter
+      summary: Get All Rate Limiters
+      description: This can only be done by the logged in user. It returns all Rate Limiters.
+      operationId: getRateLimiters
+      responses:
+        200:
+          $ref: "#/components/responses/GetRateLimitersSuccess"
+        400:
+          $ref: "#/components/responses/BadRequest"
+        429:
+          $ref: "#/components/responses/TooManyRequests"
+        500:
+          $ref: "#/components/responses/InternalError"
+
+components:
+  responses:
+    GetRateLimitersSuccess:
+      description: Success Response
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/GetRateLimitersResponseObject"
+    BadRequest:
+      description: Bad Request
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/ErrorResponseObject"
+          example:
+            status_code: 400
+            message: Bad Request
+            error: "Missing required parameter client_id"
+    InternalError:
+      description: Internal Error
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/ErrorResponseObject"
+          example:
+            status_code: 500
+            message: Internal Error
+            error: "Internal Error"
+    TooManyRequests:
+      description: Conflict
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/ErrorResponseObject"
+          example:
+            status_code: 429
+            message: Too Many Requests
+            error: "Too Many Requests - Rate limit exceeded"
+
+    HealthCheckResponse:
+      description: Health Check Response
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/HealthCheckResponseObject"
+          example:
+            status_code: 200
+            message: "OK"
+            data: "OK"
+
+    LivenessCheckResponse:
+      description: Liveness Check Response
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/LivenessCheckResponseObject"
+          example:
+            status_code: 200
+            message: "OK"
+            data: "OK"
+
+    ReadinessCheckResponse:
+      description: Readiness Check Response
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/ReadinessCheckResponseObject"
+          example:
+            status_code: 200
+            message: "OK"
+            data: "OK"
+  schemas:
+    ErrorResponseObject:
+      type: object
+      properties:
+        status_code:
+          type: number
+        message:
+          type: string
+        error:
+          type: string
+    GetRateLimitersResponseObject:
+      type: object
+      properties:
+        status_code:
+          type: number
+          example: 200
+        message:
+          type: string
+          example: "OK"
+        data:
+          type: string
+          example: "Rate limiters passed successfully"
+
+    HealthCheckResponseObject:
+      type: object
+      properties:
+        status_code:
+          type: number
+          example: 200
+        message:
+          type: string
+          example: "OK"
+        data:
+          type: string
+          example: "Server is healthy"
+
+    LivenessCheckResponseObject:
+      type: object
+      properties:
+        status_code:
+          type: number
+          example: 200
+        message:
+          type: string
+          example: "OK"
+        data:
+          type: string
+          example: "Liveness check passed"
+
+    ReadinessCheckResponseObject:
+      type: object
+      properties:
+        status_code:
+          type: number
+          example: 200
+        message:
+          type: string
+          example: "OK"
+        data:
+          type: string
+          example: "Readiness check passed"
+
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: X-API-KEY
