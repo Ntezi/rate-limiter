@@ -46,13 +46,7 @@ git clone git clone https://github.com/Ntezi/rate-limiter.git
 cd rate-limiter
 ```
 
-3. Install the dependencies:
-
-```bash
-yarn install
-```
-
-4. Start the server:
+3. Start the server:
 
 ```bash
 docker-compose up --build
