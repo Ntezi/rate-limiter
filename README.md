@@ -116,6 +116,11 @@ Use `wrk` to benchmark your Rate Limiter Service:
 wrk -t12 -c400 -d30s http://localhost:2305/rate-limiter
 ```
 
+# Author
+
+[Marius Ngaboyamahina](https://ntezi.github.io/) - Initial work and development of the Rate Limiter Service. Feel free to reach out if you have any questions or suggestions for improvements.
+
+You can also add a list of contributors if other people have contributed to the project.
 
 
 
